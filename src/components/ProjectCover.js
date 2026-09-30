@@ -27,6 +27,7 @@ function readColors() {
     text: g("--text", "#ececf3"),
     faint: g("--faint", "#5a5e70"),
     line: g("--line-strong", "rgba(190,200,255,.26)"),
+    bg: g("--bg-2", "#0c0c13"),
   };
 }
 
@@ -198,6 +199,39 @@ const DRAW = {
       ctx.fillStyle = c.coral; ctx.font = `500 9px "IBM Plex Mono", monospace`; ctx.fillText("HIT", x + 4, y + 10);
     }
     ctx.globalAlpha = 1;
+  },
+
+  // transit map: a line closure, and the agent's detour around it
+  transit(ctx, W, H, c, t) {
+    const X = (u) => W * u, Y = (v) => H * v;
+    const line = (pts, col, w = 5, dash = null) => {
+      ctx.strokeStyle = col; ctx.lineWidth = w; ctx.lineJoin = "round"; ctx.lineCap = "round";
+      if (dash) { ctx.setLineDash(dash); ctx.lineDashOffset = -t * 40; }
+      ctx.beginPath(); pts.forEach(([u, v], i) => (i ? ctx.lineTo : ctx.moveTo).call(ctx, X(u), Y(v))); ctx.stroke();
+      ctx.setLineDash([]); ctx.lineWidth = 1;
+    };
+    const stn = (u, v, col = c.text) => { ctx.fillStyle = c.bg || "#0c0c13"; ctx.strokeStyle = col; ctx.lineWidth = 2.2; ctx.beginPath(); ctx.arc(X(u), Y(v), 5, 0, 6.283); ctx.fill(); ctx.stroke(); ctx.lineWidth = 1; };
+    // Line 1 (U-shape) and Line 2 (east-west)
+    const l1 = [[0.3, 0.12], [0.3, 0.72], [0.5, 0.86], [0.7, 0.72], [0.7, 0.12]];
+    line(l1, "#e8c33b", 5);
+    line([[0.06, 0.5], [0.94, 0.5]], "#3fa45a", 5);
+    // closed segment
+    ctx.globalAlpha = 0.9; line([[0.3, 0.2], [0.3, 0.42]], c.coral, 7); ctx.globalAlpha = 1;
+    const xm = X(0.3), ym = Y(0.31), r = 8;
+    ctx.strokeStyle = c.coral; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(xm - r, ym - r); ctx.lineTo(xm + r, ym + r); ctx.moveTo(xm + r, ym - r); ctx.lineTo(xm - r, ym + r); ctx.stroke(); ctx.lineWidth = 1;
+    // agent's detour (shuttle bus around the closure)
+    line([[0.3, 0.12], [0.18, 0.18], [0.16, 0.38], [0.3, 0.5]], c.acid, 3, [8, 6]);
+    [[0.3, 0.12], [0.3, 0.5], [0.3, 0.72], [0.5, 0.86], [0.7, 0.72], [0.7, 0.5], [0.7, 0.12], [0.06, 0.5], [0.94, 0.5]].forEach(([u, v]) => stn(u, v));
+    stn(0.3, 0.12, c.acid); stn(0.3, 0.5, c.acid);
+    // alert card, inside the U below Line 2
+    const fs = Math.round(Math.min(13, Math.max(10, H * 0.05)));
+    ctx.font = `600 ${fs}px "IBM Plex Mono", monospace`;
+    const msg = "⚠ Line 1 closed · shuttles";
+    const tw = ctx.measureText(msg).width;
+    const bx = X(0.5) - tw / 2 - 10, by = Y(0.55);
+    ctx.fillStyle = "rgba(0,0,0,0.5)"; ctx.beginPath(); ctx.roundRect(bx, by, tw + 20, fs * 3.4, 8); ctx.fill();
+    ctx.fillStyle = c.coral; ctx.fillText(msg, bx + 10, by + fs * 1.4);
+    ctx.fillStyle = c.acid; ctx.fillText("↻ agent re-planned", bx + 10, by + fs * 2.8);
   },
 
   // candlesticks

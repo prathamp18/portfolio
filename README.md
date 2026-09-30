@@ -10,7 +10,7 @@ Personal portfolio for software engineering and AI/ML roles. Built with Next.js,
 - **⌘K / Ctrl+K command palette** — jump to any section, copy the email, open the resume, toggle the theme
 - **About** — an interactive terminal (`help`, `whoami`, `neofetch`, `projects`, `open resume`, `sudo hire pratham`…) plus animated impact metrics
 - **Experience** — rendered as `git log --graph`: main branch spine, side branches merging back in
-- **Projects** — personal projects only (AeroPath AI, Fraud Detection, Trading Buddy) as 3D tilt cards with animated covers; each opens a case study. Internship work lives under Experience.
+- **Projects** — personal and course projects only (DetourTO, AeroPath AI, Fraud Detection, Trading Buddy) as 3D tilt cards with animated covers; each opens a case study. Internship work lives under Experience.
 - **Playground** — two algorithms from the projects running live in the browser:
   - **A\*** pathfinding (from AeroPath): paint storm cells, drag the plane / destination, compare against Dijkstra
   - **Logistic regression from scratch** (from Fraud Detection): add points, train with gradient descent, watch loss / precision / recall / F1
@@ -24,7 +24,7 @@ Personal portfolio for software engineering and AI/ML roles. Built with Next.js,
 
 Everything lives in **`src/data/site.js`** — profile, metrics, projects (with case-study text and architecture steps), skills, experience, testimonials.
 
-- **Add a project:** copy an entry in `PROJECTS`. `category` is `ml`, `systems` or `fullstack`; `featured: true` makes it the wide card. `cover` picks the artwork: `astar`, `fraud`, `ticker` (also available: `llm`, `rag`, `chat`, `tests`, `booking`). `arch` is the list of pipeline steps shown in the case study.
+- **Add a project:** copy an entry in `PROJECTS`. `category` is `ai`, `ml`, `systems` or `fullstack`; `featured: true` makes it the wide card. `cover` picks the artwork: `transit`, `astar`, `fraud`, `ticker` (also available: `llm`, `rag`, `chat`, `tests`, `booking`). `arch` is the list of pipeline steps shown in the case study.
 - **Link a repo:** set `repo` on a project to its GitHub URL (AeroPath, Fraud Detection and Trading Buddy currently point at the GitHub profile).
 - **Add a photo:** put it in `public/` (e.g. `public/pratham.jpg`) and set `photo: "pratham.jpg"` in `PROFILE`.
 - **Update the resume:** replace `public/Pratham_Patel_Resume.pdf`.

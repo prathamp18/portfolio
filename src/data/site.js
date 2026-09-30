@@ -43,6 +43,7 @@ export const STATS = [
 
 export const CATEGORIES = [
   { key: "all", label: "All" },
+  { key: "ai", label: "AI Agents" },
   { key: "ml", label: "Machine Learning" },
   { key: "systems", label: "Backend & Algorithms" },
   { key: "fullstack", label: "Full-stack" },
@@ -56,6 +57,29 @@ const GH = "https://github.com/prathamp18";
   `arch` is the architecture pipeline drawn in the case-study view.
 */
 export const PROJECTS = [
+  {
+    id: "detourto",
+    title: "DetourTO",
+    category: "ai",
+    featured: true,
+    where: "EECS 3311 · York University",
+    date: "Fall 2026",
+    metric: { value: "8", label: "design patterns · Stage 1 done" },
+    tagline: "A disruption-aware TTC trip-planning agent. Ask in plain English; when a line closes, it re-plans before you reach the platform.",
+    problem:
+      "Transit apps plan the trip you asked for, then go quiet when a line closes — riders find out at the platform. And an LLM left to plan routes on its own will happily invent a stop that doesn't exist.",
+    points: [
+      "A deterministic Java planner (RAPTOR) computes real itineraries from the TTC's published GTFS schedule; an LLM agent (Claude on Amazon Bedrock, Converse API tool use) reads free-text service alerts and re-plans around closures.",
+      "The agent proposes, the Java code verifies: every stop, route and time a rider sees is computed by the planner and checked by a GroundingValidator — never taken from model text.",
+      "Designed around 8 GoF patterns (Facade, Observer, Command, State, Template Method, Strategy, Adapter, Decorator) with 13 feature specs and 11 sequence diagrams; JavaFX GUI + picocli CLI, JUnit 5 and KUMA agent tests planned.",
+    ],
+    arch: ["\"York U by 10, no streetcars\"", "TransitAgent · Claude", "Tool calls", "RAPTOR planner", "GroundingValidator", "Itinerary + live alerts"],
+    stack: ["Java 21", "AWS Bedrock", "Claude", "RAPTOR", "GTFS-Realtime", "JavaFX", "SQLite", "JUnit 5"],
+    repo: "https://github.com/prathamp18/EECS3311-DetourTO",
+    demo: null,
+    cover: "transit",
+    note: "In progress · design complete",
+  },
   {
     id: "aeropath",
     title: "AeroPath AI",
